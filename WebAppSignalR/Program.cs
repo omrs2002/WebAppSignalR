@@ -1,26 +1,53 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using WebAppSignalR.Hubs;
 
-namespace WebAppSignalR
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container
+builder.Services.AddRazorPages();
+builder.Services.AddSignalR(options =>
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+    // Configure SignalR options for better performance and reliability
+    options.MaximumReceiveMessageSize = 32 * 1024; // 32 KB max message size
+    options.KeepAliveInterval = TimeSpan.FromSeconds(15);
+    options.ClientTimeoutInterval = TimeSpan.FromSeconds(30);
+});
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
+// Add CORS if needed for cross-origin requests
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.AllowAnyHeader()
+               .AllowAnyMethod()
+               .AllowAnyOrigin();
+    });
+});
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
 }
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+// Apply CORS before authorization
+app.UseCors();
+
+app.UseAuthorization();
+
+app.MapRazorPages();
+app.MapHub<ChatHub>("/chatHub");
+
+app.Run();
