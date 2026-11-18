@@ -399,7 +399,7 @@ WebAppSignalR/
 ?       ??? bootstrap/              # Bootstrap CSS framework
 ?       ??? jquery/                 # jQuery library
 ??? Program.cs                      # Application configuration & startup
-??? WebAppSignalR.csproj           # Project file (.NET 8)
+??? WebAppSignalR.csproj           # Project file (.NET 10)
 ??? appsettings.json               # Configuration settings
 ??? .gitignore                     # Git ignore rules
 ```
@@ -409,7 +409,7 @@ WebAppSignalR/
 ## ?? Getting Started
 
 ### Prerequisites
-- **.NET 8 SDK** or later
+- **.NET 10 SDK** or later
 - **Visual Studio 2022** or **VS Code**
 - **Modern web browser** (Chrome, Firefox, Edge, Safari)
 

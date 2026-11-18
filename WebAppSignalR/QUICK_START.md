@@ -3,7 +3,7 @@
 ## ?? Running the Application
 
 ### Prerequisites
-- .NET 8 SDK installed
+- .NET 10 SDK installed
 - Visual Studio, VS Code, or any text editor
 
 ### Steps
@@ -165,7 +165,7 @@ builder.Services.AddLogging(config =>
 
 ## ?? File Changes Checklist
 
-- ? `WebAppSignalR.csproj` - Target framework updated to .NET 8
+- ? `WebAppSignalR.csproj` - Target framework updated to .NET 10
 - ? `Program.cs` - Added SignalR configuration and CORS
 - ? `ChatHub.cs` - Added logging, validation, error handling
 - ? `Chat.js` - Added reconnection, validation, sanitization
